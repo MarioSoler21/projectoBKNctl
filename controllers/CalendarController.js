@@ -5,7 +5,7 @@ const supabaseAnonClient = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
-// Obtener todas las asesorías del calendario
+
 exports.getAllAsesorias = async (req, res) => {
   try {
     const { data, error } = await supabaseAnonClient.from('calendario').select('*');
