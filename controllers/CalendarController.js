@@ -67,7 +67,7 @@ exports.updateAsesoria = async (req, res) => {
   }
 };
 
-// Eliminar una asesoría
+
 exports.deleteAsesoria = async (req, res) => {
   try {
     const { id } = req.params;
