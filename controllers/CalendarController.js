@@ -19,18 +19,27 @@ exports.getAllAsesorias = async (req, res) => {
 // Crear una nueva asesoría
 exports.createAsesoria = async (req, res) => {
   try {
-    const { name, date, time, topic } = req.body;
+    const { name, email, date, time, topic } = req.body;
+
+    if (!name || !email || !date || !time || !topic) {
+      return res.status(400).json({ error: "Todos los campos son requeridos" });
+    }
+
+    console.log("Datos recibidos:", req.body);
+
     const { data, error } = await supabaseAnonClient
       .from('calendario')
-      .insert([{ name, date, time, topic }])
+      .insert([{ name, email, date, time, topic }])
       .select();
 
     if (error) throw error;
     res.status(201).json({ message: 'Asesoría creada', data });
   } catch (error) {
+    console.error("Supabase error:", error);
     res.status(500).json({ error: 'Error al crear asesoría', detalle: error.message });
   }
 };
+
 
 // Obtener una asesoría por ID
 exports.getAsesoriaById = async (req, res) => {
@@ -53,10 +62,10 @@ exports.getAsesoriaById = async (req, res) => {
 exports.updateAsesoria = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, date, time, topic } = req.body;
+    const { name, date,email, time, topic } = req.body;
     const { data, error } = await supabaseAnonClient
       .from('calendario')
-      .update({ name, date, time, topic })
+      .update({ name, date, email, time, topic })
       .eq('id', id)
       .select();
 
